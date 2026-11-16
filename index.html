@@ -62,7 +62,7 @@ button:disabled{cursor:default}
 .eu:hover{border-color:var(--faint)}
 .av{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--pc,var(--faint));color:#fff;font:600 12px/1 var(--f-ui);flex:none;border:0;padding:0}
 .av.lg{width:44px;height:44px;font-size:17px}
-.av.vazio{background:transparent;color:var(--faint);border:1.5px dashed var(--line)}
+.av.ninguem{background:transparent;color:var(--faint);border:1.5px dashed var(--line)}
 .av.naovista{outline:2px dashed var(--pc,var(--faint));outline-offset:2px}
 
 /* Criação rápida */
@@ -359,7 +359,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
       <span class="sync" id="sync" data-s="conectando"><i></i><span id="sync-txt">Conectando…</span></span>
     </div>
     <button class="eu" id="b-eu" type="button" title="Ajustes, empresas e equipe">
-      <span class="av vazio" id="eu-av">?</span><span class="nm" id="eu-nome">Entrar</span>
+      <span class="av ninguem" id="eu-av">?</span><span class="nm" id="eu-nome">Entrar</span>
     </button>
   </header>
 
@@ -630,7 +630,7 @@ const nome = id => S.equipe.get(id)?.nome || (id ? 'Alguém' : 'Ninguém');
 const curtoEmp = e => e ? (e.nome.replace(/^central\s+/i, '') || e.nome) : 'Sem empresa';
 function avatar(id, cls) {
   const p = S.equipe.get(id);
-  const el = h('span', { class: 'av' + (p ? '' : ' vazio') + (cls ? ' ' + cls : ''), title: p ? p.nome : 'Ninguém', 'aria-hidden': 'true' }, p ? (p.nome || '?').trim().charAt(0).toUpperCase() : '+');
+  const el = h('span', { class: 'av' + (p ? '' : ' ninguem') + (cls ? ' ' + cls : ''), title: p ? p.nome : 'Ninguém', 'aria-hidden': 'true' }, p ? (p.nome || '?').trim().charAt(0).toUpperCase() : '+');
   if (p && p.cor) el.style.setProperty('--pc', p.cor);
   return el;
 }
@@ -1412,7 +1412,7 @@ function pintarAjustes(forcar) {
 /* ---------- janelas: quem é você, senha, configuração ---------- */
 let modalTipo = null;
 function abrirModal(tipo, ...kids) {
-  modalTipo = tipo; $('#mcard').replaceChildren(...kids); $('#modal').hidden = false;
+  modalTipo = tipo; $('#mcard').replaceChildren(...kids.flat(3).filter(k => k != null && k !== false)); $('#modal').hidden = false;
   setTimeout(() => { const f = $('#mcard').querySelector('input,.pessoa-btn,button'); if (f) f.focus(); }, 40);
 }
 function fecharModal() { $('#modal').hidden = true; modalTipo = null; }
@@ -1435,7 +1435,9 @@ function mostrarSetup(tipo) {
     tipo === 'sem-banco'
       ? [h('p', null, 'O site está no ar, mas o banco ainda não foi conectado. No painel do Vercel:'),
         h('ol', null, h('li', null, 'Projeto → Storage → Create Database → Upstash for Redis (plano Free).'), h('li', null, 'Conecte o banco a este projeto.'),
-          h('li', null, 'Settings → Environment Variables: crie PAUTA_SENHA com a senha da equipe.'), h('li', null, 'Faça um novo deploy e recarregue esta página.'))]
+          h('li', null, 'Settings → Environment Variables: crie PAUTA_SENHA com a senha da equipe.'),
+          h('li', null, 'Deployments → último deploy → Redeploy. As variáveis novas só valem num deploy novo.')),
+        h('p', null, 'Já fez tudo isso? Confira em Settings → Environment Variables se existem KV_REST_API_URL e KV_REST_API_TOKEN (ou UPSTASH_REDIS_REST_URL e UPSTASH_REDIS_REST_TOKEN).')]
       : h('p', null, local ? 'Este arquivo precisa ser aberto pelo endereço do Vercel, não direto do computador. O passo a passo está no README.md do repositório.' : 'A rota /api/pauta não respondeu. Confira se a pasta api/ foi junto no deploy.'),
     h('button', { class: 'btn', type: 'button', 'data-acao': 'recarregar' }, 'Tentar de novo'));
 }
