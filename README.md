@@ -27,7 +27,9 @@ A API lê `KV_REST_API_URL` e `KV_REST_API_TOKEN`, ou `UPSTASH_REDIS_REST_URL` e
   - "Post Black Friday Móveis" vai para a Isa, porque post é com ela.
   - Para escolher a pessoa, escreva o nome ("… para Isa"). Para dar prazo, escreva "hoje 15h" ou "amanhã 18h".
   - Os chips embaixo da barra mostram o que foi entendido. Clique num chip para trocar. Shift+Enter abre os detalhes antes de criar.
+- **Marcar como feita:** clique no círculo do começo da linha (ou do cartão no quadro). A tarefa fica riscada, vai para "Entregues" e o cronômetro para. Clique de novo para desmarcar; ela volta ao status que tinha.
 - **Editar:** clique em qualquer célula da lista para mudar o status, a empresa, quem faz, a data da postagem ou o prazo. Clique no título para renomear.
+- **Modo escuro:** botão de sol/lua no topo. Em Ajustes dá para escolher Automático, Claro ou Escuro; a escolha fica salva no aparelho.
 - **Cronômetros:** a coluna Cronômetro conta o tempo até o prazo. O ▶ da coluna Tempo marca quanto tempo vocês trabalharam na peça.
 - **Quadro:** arraste os cartões entre A fazer, Fazendo, Revisão e Postado.
 - **Calendário:** clique num dia para ver as datas comemorativas e quais empresas ainda estão sem demanda ("+ Móveis" cria na hora).
